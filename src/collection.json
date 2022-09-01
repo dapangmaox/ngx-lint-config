@@ -4,6 +4,10 @@
     "ngx-lint-config": {
       "description": "A blank schematic.",
       "factory": "./ngx-lint-config/index#ngxLintConfig"
+    },
+    "ng-add": {
+      "description": "Add config to Angular project.",
+      "factory": "./ng-add/index#ngAdd"
     }
   }
 }

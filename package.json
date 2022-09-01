@@ -12,14 +12,18 @@
   "author": "",
   "license": "MIT",
   "schematics": "./src/collection.json",
+  "ng-add": {
+    "save": false
+  },
   "dependencies": {
     "@angular-devkit/core": "^14.2.1",
     "@angular-devkit/schematics": "^14.2.1",
+    "@angular-eslint/schematics": "^14.0.3",
     "typescript": "~4.7.2"
   },
   "devDependencies": {
-    "@types/node": "^14.15.0",
     "@types/jasmine": "~4.0.0",
+    "@types/node": "^14.15.0",
     "jasmine": "^4.0.0"
   }
 }
