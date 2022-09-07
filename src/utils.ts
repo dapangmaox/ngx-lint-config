@@ -1,68 +1,5 @@
-import {
-  chain,
-  externalSchematic,
-  Rule,
-  SchematicContext,
-  Tree,
-} from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import * as stripJsonComments from 'strip-json-comments';
-
-const packageJSON = require('../package.json');
-
-/**
- *
- * @param _options
- * @returns run @angular-eslint/schematics
- */
-export function addESLintToProject(_options: any): Rule {
-  return (_tree: Tree, _context: SchematicContext) => {
-    const rule = externalSchematic(
-      '@angular-eslint/schematics',
-      'ng-add',
-      _options
-    );
-
-    return rule;
-  };
-}
-
-export function addPrettierToProject(_options: any): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const projectPackageJSON = (tree.read('package.json') as Buffer).toString(
-      'utf-8'
-    );
-
-    const json = JSON.parse(projectPackageJSON);
-    json.devDependencies = json.devDependencies || {};
-
-    json.devDependencies['eslint-config-prettier'] =
-      packageJSON.devDependencies['eslint-config-prettier'];
-    json.devDependencies['eslint-plugin-prettier'] =
-      packageJSON.devDependencies['eslint-plugin-prettier'];
-    json.devDependencies['prettier'] = packageJSON.devDependencies['prettier'];
-
-    tree.overwrite('package.json', JSON.stringify(json, null, 2));
-
-    context.addTask(new NodePackageInstallTask());
-
-    context.logger.info(
-      'Prettier dependencies have been successfully installed'
-    );
-
-    return tree;
-  };
-}
-
-export function applyPrettierConfigToProject() {
-  return (_tree: Tree, context: SchematicContext) => {
-    context.logger.info('Adding prettier config to project...');
-    return chain([
-      updateJsonInTree('.prettierrc.json', () => createPrettierConfig()),
-      updateJsonInTree('.eslintrc.json', (json) => updateESLintConfig(json)),
-    ]);
-  };
-}
 
 /**
  * This method is specifically for updating JSON in a Tree
@@ -97,7 +34,6 @@ function serializeJson(json: unknown): string {
  * @param path The path to the JSON file
  * @returns The JSON data in the file.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function readJsonInTree<T = any>(tree: Tree, path: string): T {
   if (!tree.exists(path)) {
     throw new Error(`Cannot find ${path}`);
