@@ -19,11 +19,15 @@
     "@angular-devkit/core": "^14.2.1",
     "@angular-devkit/schematics": "^14.2.1",
     "@angular-eslint/schematics": "^14.0.3",
+    "strip-json-comments": "^3.1.1",
     "typescript": "~4.7.2"
   },
   "devDependencies": {
     "@types/jasmine": "~4.0.0",
     "@types/node": "^14.15.0",
-    "jasmine": "^4.0.0"
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jasmine": "^4.0.0",
+    "prettier": "^2.7.1"
   }
 }
