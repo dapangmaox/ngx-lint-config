@@ -7,9 +7,11 @@ import {
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
+  addVSCodeSettings,
   createPrettierConfig,
   updateESLintConfig,
   updateJsonInTree,
+  updateVSCodeExtensions,
 } from '../utils';
 
 // You don't have to export the function as default. You can also have more than one rule factory
@@ -26,7 +28,7 @@ export function ngAdd(_options: any): Rule {
   };
 }
 
-const packageJSON = require('../package.json');
+const packageJSON = require('../../package.json');
 
 export function addESLintToProject(_options: any): Rule {
   return (_tree: Tree, _context: SchematicContext) => {
@@ -72,6 +74,10 @@ export function applyPrettierConfigToProject() {
     return chain([
       updateJsonInTree('.prettierrc.json', () => createPrettierConfig()),
       updateJsonInTree('.eslintrc.json', (json) => updateESLintConfig(json)),
+      updateJsonInTree('.vscode/settings.json', () => addVSCodeSettings()),
+      updateJsonInTree('.vscode/extensions.json', (json) =>
+        updateVSCodeExtensions(json)
+      ),
     ]);
   };
 }

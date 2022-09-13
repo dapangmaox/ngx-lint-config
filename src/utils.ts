@@ -68,5 +68,52 @@ export function updateESLintConfig(eslintJson: Record<string, any>) {
   eslintJson.overrides[0].extends = eslintJson.overrides[0].extends || [];
   eslintJson.overrides[0].extends.push('plugin:prettier/recommended');
 
+  eslintJson.overrides.push({
+    files: ['*.html'],
+    excludedFiles: ['*inline-template-*.component.html'],
+    extends: ['plugin:prettier/recommended'],
+    rules: {
+      'prettier/prettier': ['error', { parser: 'angular' }],
+    },
+  });
+
   return eslintJson;
+}
+
+export function updateVSCodeExtensions(json: Record<string, any>) {
+  json.recommendations = json.recommendations || [];
+  json.recommendations.push('esbenp.prettier-vscode');
+  json.recommendations.push('dbaeumer.vscode-eslint');
+
+  return json;
+}
+
+export function addVSCodeSettings() {
+  return {
+    '[html]': {
+      'editor.defaultFormatter': 'esbenp.prettier-vscode',
+      'editor.codeActionsOnSave': {
+        'source.fixAll.eslint': true,
+      },
+      'editor.formatOnSave': false,
+    },
+    '[typescript]': {
+      'editor.defaultFormatter': 'dbaeumer.vscode-eslint',
+      'editor.codeActionsOnSave': {
+        'source.fixAll.eslint': true,
+      },
+      'editor.formatOnSave': false,
+    },
+
+    'eslint.options': {
+      extensions: ['.ts', '.html'],
+    },
+    'eslint.validate': [
+      'javascript',
+      'javascriptreact',
+      'typescript',
+      'typescriptreact',
+      'html',
+    ],
+  };
 }
