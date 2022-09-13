@@ -1,6 +1,6 @@
 # ngx-lint-config
 
-All the tooling which enables ESLint & Prettier to lint Angular projects.
+One command config ESLint & Prettier in your Angular project.
 
 ## Usage
 
