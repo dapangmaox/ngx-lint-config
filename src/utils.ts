@@ -58,7 +58,7 @@ export function createPrettierConfig() {
     semi: true,
     bracketSpacing: true,
     arrowParens: 'avoid',
-    trailingComma: 'es5',
+    trailingComma: 'none',
     bracketSameLine: true,
     printWidth: 80,
   };
@@ -98,7 +98,7 @@ export function addVSCodeSettings() {
       'editor.formatOnSave': false,
     },
     '[typescript]': {
-      'editor.defaultFormatter': 'dbaeumer.vscode-eslint',
+      'editor.defaultFormatter': 'esbenp.prettier-vscode',
       'editor.codeActionsOnSave': {
         'source.fixAll.eslint': true,
       },
