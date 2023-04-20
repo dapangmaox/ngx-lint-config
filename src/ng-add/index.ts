@@ -11,6 +11,7 @@ import {
   createPrettierConfig,
   updateESLintConfig,
   updateJsonInTree,
+  updatePrettierConfig,
   updateVSCodeExtensions,
 } from '../utils';
 
@@ -74,6 +75,9 @@ export function applyPrettierConfigToProject() {
     return chain([
       updateJsonInTree('.prettierrc.json', () => createPrettierConfig()),
       updateJsonInTree('.eslintrc.json', (json) => updateESLintConfig(json)),
+      updateJsonInTree('.prettierrc.json', (json) =>
+        updatePrettierConfig(json)
+      ),
       updateJsonInTree('.vscode/settings.json', () => addVSCodeSettings()),
       updateJsonInTree('.vscode/extensions.json', (json) =>
         updateVSCodeExtensions(json)

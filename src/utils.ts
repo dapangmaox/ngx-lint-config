@@ -1,5 +1,5 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import * as stripJsonComments from 'strip-json-comments';
+import stripJsonComments from 'strip-json-comments';
 
 /**
  * This method is specifically for updating JSON in a Tree
@@ -68,16 +68,23 @@ export function updateESLintConfig(eslintJson: Record<string, any>) {
   eslintJson.overrides[0].extends = eslintJson.overrides[0].extends || [];
   eslintJson.overrides[0].extends.push('plugin:prettier/recommended');
 
-  eslintJson.overrides.push({
-    files: ['*.html'],
-    excludedFiles: ['*inline-template-*.component.html'],
-    extends: ['plugin:prettier/recommended'],
-    rules: {
-      'prettier/prettier': ['error', { parser: 'angular' }],
-    },
-  });
+  eslintJson.overrides[1].extends = eslintJson.overrides[1].extends || [];
+  eslintJson.overrides[1].extends.push('plugin:prettier/recommended');
 
   return eslintJson;
+}
+
+export function updatePrettierConfig(prettierJson: Record<string, any>) {
+  prettierJson.overrides = [
+    {
+      files: '*.html',
+      options: {
+        parser: 'angular',
+      },
+    },
+  ];
+
+  return prettierJson;
 }
 
 export function updateVSCodeExtensions(json: Record<string, any>) {
