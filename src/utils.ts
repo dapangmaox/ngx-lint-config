@@ -1,5 +1,5 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import stripJsonComments from 'strip-json-comments';
+import * as stripJsonComments from 'strip-json-comments';
 
 /**
  * This method is specifically for updating JSON in a Tree
