@@ -11,6 +11,6 @@ describe('ng-add', () => {
       .runSchematicAsync('ng-add', {}, Tree.empty())
       .toPromise();
 
-    expect(tree.files).toEqual([]);
+    expect(tree?.files).toEqual([]);
   });
 });

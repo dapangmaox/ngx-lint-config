@@ -11,6 +11,6 @@ describe('ngx-lint-config', () => {
       .runSchematicAsync('ngx-lint-config', {}, Tree.empty())
       .toPromise();
 
-    expect(tree.files).toEqual([]);
+    expect(tree?.files).toEqual([]);
   });
 });
