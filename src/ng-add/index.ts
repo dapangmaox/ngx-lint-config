@@ -53,8 +53,6 @@ export function addPrettierToProject(_options: any): Rule {
 
     json.devDependencies['eslint-config-prettier'] =
       packageJSON.devDependencies['eslint-config-prettier'];
-    json.devDependencies['eslint-plugin-prettier'] =
-      packageJSON.devDependencies['eslint-plugin-prettier'];
     json.devDependencies['prettier'] = packageJSON.devDependencies['prettier'];
 
     tree.overwrite('package.json', JSON.stringify(json, null, 2));
@@ -62,7 +60,7 @@ export function addPrettierToProject(_options: any): Rule {
     context.addTask(new NodePackageInstallTask());
 
     context.logger.info(
-      'Prettier dependencies have been successfully installed'
+      'Prettier dependencies have been successfully installed!'
     );
 
     return tree;
