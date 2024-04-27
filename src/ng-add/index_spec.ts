@@ -7,9 +7,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 describe('ng-add', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = await runner
-      .runSchematicAsync('ng-add', {}, Tree.empty())
-      .toPromise();
+    const tree = await runner.runSchematic('ng-add', {}, Tree.empty());
 
     expect(tree?.files).toEqual([]);
   });

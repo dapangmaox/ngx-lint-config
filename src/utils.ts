@@ -57,34 +57,16 @@ export function createPrettierConfig() {
     singleQuote: true,
     semi: true,
     bracketSpacing: true,
-    arrowParens: 'avoid',
-    trailingComma: 'none',
-    bracketSameLine: true,
+    bracketSameLine: false,
     printWidth: 80,
   };
 }
 
 export function updateESLintConfig(eslintJson: Record<string, any>) {
   eslintJson.overrides[0].extends = eslintJson.overrides[0].extends || [];
-  eslintJson.overrides[0].extends.push('plugin:prettier/recommended');
-
-  eslintJson.overrides[1].extends = eslintJson.overrides[1].extends || [];
-  eslintJson.overrides[1].extends.push('plugin:prettier/recommended');
+  eslintJson.overrides[0].extends.push('prettier');
 
   return eslintJson;
-}
-
-export function updatePrettierConfig(prettierJson: Record<string, any>) {
-  prettierJson.overrides = [
-    {
-      files: '*.html',
-      options: {
-        parser: 'angular',
-      },
-    },
-  ];
-
-  return prettierJson;
 }
 
 export function updateVSCodeExtensions(json: Record<string, any>) {
@@ -95,32 +77,58 @@ export function updateVSCodeExtensions(json: Record<string, any>) {
   return json;
 }
 
-export function addVSCodeSettings() {
-  return {
-    '[html]': {
-      'editor.defaultFormatter': 'esbenp.prettier-vscode',
-      'editor.codeActionsOnSave': {
-        'source.fixAll.eslint': true,
-      },
-      'editor.formatOnSave': false,
-    },
-    '[typescript]': {
-      'editor.defaultFormatter': 'esbenp.prettier-vscode',
-      'editor.codeActionsOnSave': {
-        'source.fixAll.eslint': true,
-      },
-      'editor.formatOnSave': false,
-    },
+export function readGitignoreAndWriteToPrettierignore(): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    const gitignorePath = '.gitignore';
+    const prettierignorePath = '.prettierignore';
 
-    'eslint.options': {
-      extensions: ['.ts', '.html'],
-    },
-    'eslint.validate': [
-      'javascript',
-      'javascriptreact',
-      'typescript',
-      'typescriptreact',
-      'html',
-    ],
+    // 读取 .gitignore 文件内容
+    const gitignoreContent = tree.read(gitignorePath)?.toString('utf-8');
+
+    if (!gitignoreContent) {
+      _context.logger.error('.gitignore 文件不存在或为空');
+      return tree;
+    }
+
+    // 将 .gitignore 内容写入 .prettierignore 文件
+    tree.create(prettierignorePath, gitignoreContent);
+
+    return tree;
+  };
+}
+
+export function addOrUpdateVscodeSettings(): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    const settingsPath = '.vscode/settings.json';
+    const configToAdd = {
+      'editor.codeActionsOnSave': {
+        'source.fixAll.eslint': true,
+      },
+      'editor.defaultFormatter': 'esbenp.prettier-vscode',
+      'editor.formatOnSave': true,
+    };
+
+    let settingsContent = tree.read(settingsPath)?.toString('utf-8');
+    let settingsJson = {};
+
+    // 如果 settings.json 文件已存在，则尝试解析其内容
+    if (settingsContent) {
+      try {
+        settingsJson = JSON.parse(settingsContent);
+      } catch (error) {
+        _context.logger.error(`解析 ${settingsPath} 文件出错: ${error}`);
+      }
+    }
+
+    // 合并配置项
+    settingsJson = { ...settingsJson, ...configToAdd };
+
+    // 将配置项转为 JSON 格式
+    const updatedSettingsContent = JSON.stringify(settingsJson, null, 2);
+
+    // 将更新后的配置写入文件
+    tree.create(settingsPath, updatedSettingsContent);
+
+    return tree;
   };
 }

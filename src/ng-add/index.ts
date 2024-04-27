@@ -7,11 +7,11 @@ import {
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
-  addVSCodeSettings,
+  addOrUpdateVscodeSettings,
   createPrettierConfig,
+  readGitignoreAndWriteToPrettierignore,
   updateESLintConfig,
   updateJsonInTree,
-  updatePrettierConfig,
   updateVSCodeExtensions,
 } from '../utils';
 
@@ -72,11 +72,11 @@ export function applyPrettierConfigToProject() {
     context.logger.info('Adding prettier config to project...');
     return chain([
       updateJsonInTree('.prettierrc.json', () => createPrettierConfig()),
+      readGitignoreAndWriteToPrettierignore(),
       updateJsonInTree('.eslintrc.json', (json) => updateESLintConfig(json)),
-      updateJsonInTree('.prettierrc.json', (json) =>
-        updatePrettierConfig(json)
+      updateJsonInTree('.vscode/settings.json', () =>
+        addOrUpdateVscodeSettings()
       ),
-      updateJsonInTree('.vscode/settings.json', () => addVSCodeSettings()),
       updateJsonInTree('.vscode/extensions.json', (json) =>
         updateVSCodeExtensions(json)
       ),
