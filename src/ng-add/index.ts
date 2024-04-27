@@ -74,9 +74,7 @@ export function applyPrettierConfigToProject() {
       updateJsonInTree('.prettierrc.json', () => createPrettierConfig()),
       readGitignoreAndWriteToPrettierignore(),
       updateJsonInTree('.eslintrc.json', (json) => updateESLintConfig(json)),
-      updateJsonInTree('.vscode/settings.json', () =>
-        addOrUpdateVscodeSettings()
-      ),
+      addOrUpdateVscodeSettings(),
       updateJsonInTree('.vscode/extensions.json', (json) =>
         updateVSCodeExtensions(json)
       ),
