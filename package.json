@@ -1,6 +1,6 @@
 {
   "name": "ngx-lint-config",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "One command config ESLint & Prettier in your Angular project.",
   "repository": {
     "type": "git",
