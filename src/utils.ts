@@ -102,7 +102,7 @@ export function addOrUpdateVscodeSettings(): Rule {
     const settingsPath = '.vscode/settings.json';
     const configToAdd = {
       'editor.codeActionsOnSave': {
-        'source.fixAll.eslint': true,
+        'source.fixAll.eslint': 'explicit',
       },
       'editor.defaultFormatter': 'esbenp.prettier-vscode',
       'editor.formatOnSave': true,
