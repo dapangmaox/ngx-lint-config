@@ -21,17 +21,17 @@
     "save": false
   },
   "dependencies": {
-    "@angular-devkit/core": "^17.3.5",
-    "@angular-devkit/schematics": "^17.3.5",
-    "@angular-eslint/schematics": "^17.3.0",
+    "@angular-devkit/core": "^18.0.0",
+    "@angular-devkit/schematics": "^18.0.0",
+    "@angular-eslint/schematics": "^18.0.0",
     "strip-json-comments": "^3.1.1",
-    "typescript": "^5.0.4"
+    "typescript": "^5.4.5"
   },
   "devDependencies": {
-    "@types/jasmine": "^4.3.1",
-    "@types/node": "^18.15.11",
-    "eslint-config-prettier": "^8.10.0",
-    "jasmine": "^4.6.0",
-    "prettier": "^2.8.8"
+    "@types/jasmine": "^5.1.4",
+    "@types/node": "^20.14.2",
+    "eslint-config-prettier": "^9.1.0",
+    "jasmine": "^5.1.0",
+    "prettier": "^3.3.2"
   }
 }
