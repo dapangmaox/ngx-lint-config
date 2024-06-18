@@ -10,9 +10,8 @@ import {
   addOrUpdateVscodeSettings,
   createPrettierConfig,
   readGitignoreAndWriteToPrettierignore,
-  updateESLintConfig,
   updateJsonInTree,
-  updateVSCodeExtensions,
+  updateVSCodeExtensions
 } from '../utils';
 
 // You don't have to export the function as default. You can also have more than one rule factory
@@ -71,9 +70,8 @@ export function applyPrettierConfigToProject() {
   return (_tree: Tree, context: SchematicContext) => {
     context.logger.info('Adding prettier config to project...');
     return chain([
-      updateJsonInTree('.prettierrc.json', () => createPrettierConfig()),
+      updateJsonInTree('.prettierrc', () => createPrettierConfig()),
       readGitignoreAndWriteToPrettierignore(),
-      updateJsonInTree('.eslintrc.json', (json) => updateESLintConfig(json)),
       addOrUpdateVscodeSettings(),
       updateJsonInTree('.vscode/extensions.json', (json) =>
         updateVSCodeExtensions(json)

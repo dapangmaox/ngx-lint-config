@@ -7,20 +7,21 @@ import * as stripJsonComments from 'strip-json-comments';
  * @param callback Manipulation of the JSON data
  * @returns A rule which updates a JSON file file in a Tree
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function updateJsonInTree<T = any, O = T>(
   path: string,
-  callback: (json: T, context: SchematicContext) => O
+  callback: (json: T, context: SchematicContext) => O,
 ): Rule {
-  return (tree: Tree, context: SchematicContext): Tree => {
-    if (!tree.exists(path)) {
-      tree.create(path, serializeJson(callback({} as T, context)));
-      return tree;
+  return (host: Tree, context: SchematicContext): Tree => {
+    if (!host.exists(path)) {
+      host.create(path, serializeJson(callback({} as T, context)));
+      return host;
     }
-    tree.overwrite(
+    host.overwrite(
       path,
-      serializeJson(callback(readJsonInTree(tree, path), context))
+      serializeJson(callback(readJsonInTree(host, path), context)),
     );
-    return tree;
+    return host;
   };
 }
 
@@ -30,22 +31,23 @@ function serializeJson(json: unknown): string {
 
 /**
  * This method is specifically for reading JSON files in a Tree
- * @param tree The tree tree
+ * @param host The host tree
  * @param path The path to the JSON file
  * @returns The JSON data in the file.
  */
-export function readJsonInTree<T = any>(tree: Tree, path: string): T {
-  if (!tree.exists(path)) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function readJsonInTree<T = any>(host: Tree, path: string): T {
+  if (!host.exists(path)) {
     throw new Error(`Cannot find ${path}`);
   }
   const contents = stripJsonComments(
-    (tree.read(path) as Buffer).toString('utf-8')
+    (host.read(path) as Buffer).toString('utf-8'),
   );
   try {
     return JSON.parse(contents);
   } catch (e) {
     throw new Error(
-      `Cannot parse ${path}: ${e instanceof Error ? e.message : ''}`
+      `Cannot parse ${path}: ${e instanceof Error ? e.message : ''}`,
     );
   }
 }
@@ -132,3 +134,4 @@ export function addOrUpdateVscodeSettings(): Rule {
     return tree;
   };
 }
+
